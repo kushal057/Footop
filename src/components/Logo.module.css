@@ -1,0 +1,9 @@
+/* Logo.module.css */
+
+.logo {
+    /* Styles for the logo container */
+    font-size: 1.5em;
+    font-weight: 800;
+    font-style:italic
+}
+  
