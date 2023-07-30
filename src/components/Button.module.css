@@ -1,0 +1,19 @@
+/* Button.module.css */
+
+.button {
+    background-color: none;
+    color: black;
+    padding: 0.6em 2em;
+    border: none;
+    font-weight: 400;
+    font-size: 1em;
+    border-radius: 0;
+    text-transform: uppercase;
+  }
+  
+  .navButton {
+    border-radius: 1.4em;
+    border: 0.1em solid white;
+    color: white;
+  }
+  
