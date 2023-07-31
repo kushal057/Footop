@@ -1,0 +1,25 @@
+/* Input.module.css */
+
+/* Utilities */
+
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.labelStyle {
+    color: darkslategray;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.7em;
+}
+
+.inputStyle {
+    outline: none;
+    color: #333;
+    border-radius: 0.2em;
+    border: 1px solid lightgray;
+    padding: 0.8em 2em;
+}
