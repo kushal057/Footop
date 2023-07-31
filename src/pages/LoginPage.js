@@ -27,7 +27,7 @@ const Login = () => {
         </div>
         <div className={styles.row}>
           <Button text="Login" customStyle="loginButton" />
-          <p style={{ color: 'darkslategray', textAlign: 'center' }}>
+          <p className={styles.note} style={{textAlign: "center"}}>
             Don't have an account? <a href="#">Sign up</a>
           </p>
         </div>
