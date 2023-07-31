@@ -3,13 +3,11 @@ import styles from './Button.module.css';
 
 export default function Button({
   text,
-  type = "",
-  casing = "uppercase"
+  customStyle = "",
 }) {
   return (
     <button
-      className={`${styles.button} ${type === "navButton" && styles.navButton}`}
-      style={{ casing }}
+      className={`${styles.button} ${customStyle !== "" && styles[customStyle]}`}
     >
       {text}
     </button>

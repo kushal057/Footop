@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+:root {
+  --bgDark: #0D3B61;
+  --bgDarkPlus: #002D52;
+  --bgPrimary: #82A1BB;
+  --bgLight: #D7DFE7;
+  --bgLightPlus: #E1E9F0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  line-height: 1.1;
+}
+
+a {
+  color: purple;
+  text-decoration: none;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}

@@ -1,0 +1,70 @@
+/* Login.module.css */
+
+/* Utilities */
+
+.login {
+    width: 100%;
+    height: 100vmin;
+    display: flex;
+    font-size: 1rem;
+}
+
+.loginBanner {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 89, 171, 0.75), rgba(0, 27, 79, 0.75)), url(../assets/login_background.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.loginForm {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    padding: 0 8em;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.row + .row {
+    margin-top: 3em;
+}
+
+.row > * + * {
+    margin-top: 1.5em;
+}
+
+.row:first-child .heading {
+    font-size: 2em;
+    font-weight: 800;
+    color: var(--bg-dark);
+}
+
+.row:first-child .note {
+    color: darkslategray;
+    font-size: 0.9em;
+    font-size: 100;
+}
+
+.rememberForgot {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.rememberForgot > * {
+    display: flex;
+    align-items: center;
+}
+
+.rememberMe > * + * {
+    margin-left: 0.15em;
+}

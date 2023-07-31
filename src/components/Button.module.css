@@ -15,5 +15,14 @@
     border-radius: 1.4em;
     border: 0.1em solid white;
     color: white;
-  }
+}
+
+.loginButton {
+    background: var(--bgDark);
+    color: var(--bgLightPlus);
+    text-transform: none;
+    border-radius: 20px;
+    padding-top: 0.9em;
+    padding-bottom: 0.9em;
+}
   
