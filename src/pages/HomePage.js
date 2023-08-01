@@ -3,7 +3,7 @@ import styles from './HomePage.module.css';
 import Logo from  '../components/Logo';
 import Button from '../components/Button';
 import Slogan from '../components/Slogan';
-import messi_homepage from '../assets/messi_homepage.png';
+import messi_homepage from '../assets/images/messi_homepage.png';
 
 const NavBar = () => {
   return (

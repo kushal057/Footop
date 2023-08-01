@@ -1,0 +1,14 @@
+.sidebarNavItem {
+    font-size: 1.2em;
+}
+
+.sidebarNavItem img {
+    max-height: 1em;
+    filter: invert(99%) sepia(73%) saturate(519%) hue-rotate(174deg) brightness(91%) contrast(99%);
+}
+
+p {
+    margin: 0 0.3em;
+    font-weight: 600;
+    display: inline-block;
+}

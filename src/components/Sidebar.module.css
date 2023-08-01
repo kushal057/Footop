@@ -1,0 +1,16 @@
+.sidebar{
+    width: 15vmax;
+    height: 100vmin;
+    background: var(--bgDarkPlus);
+    color: var(--bgLight);
+    font-size: 0.8rem;
+    padding: 3em 3.5vmax;
+}
+
+.sidebar * + * {
+    margin-top: 1.2em;
+}
+
+.sidebar > *:first-child {
+    margin-bottom: 2.5em;
+}
