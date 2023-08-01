@@ -1,12 +1,12 @@
 import React from 'react';
 import Button from '../components/Button';
 import Input from '../components/Input';
-import styles from './SignUpPage.module.css'; // Import the CSS module
+import styles from './SignUpPage.module.css';
 
 export default function SignUpPage() {
   return (
     <div className={styles.signup}>
-      <div className={styles.signupBanner}></div> {/* Use the CSS module class */}
+      <div className={styles.signupBanner}></div>
       <form className={styles.signupForm}>
         <div className={styles.row}>
           <p className={styles.heading}>Welcome to Footop</p>
@@ -19,7 +19,7 @@ export default function SignUpPage() {
           <Input label="Confirm Password" type="password" />
         </div>
         <div className={styles.row}>
-          <Button text="Signup" customStyle="loginButton" />
+          <Button text="Sign Up" customStyle="loginButton" />
           <p className={styles.note} style={{textAlign: "center"}}>Already signed up? <a href="#">Login</a></p>
         </div>
       </form>
