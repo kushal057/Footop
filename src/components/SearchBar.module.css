@@ -1,0 +1,43 @@
+.searchBar {
+    display: flex;
+    border: 1.6px solid var(--bg-dark);
+    font-size: 1em;
+    padding: 1.2em 0;
+    border-radius: 50px;  
+}
+
+.searchBar input {
+    flex: 1;
+    padding: 0.5em 0;
+    outline: none;
+    border: none;
+    font-size: 1.5em;
+    background: none;
+    padding: 0 2em;
+    color: var(--bg-dark);
+}
+
+.searchBar::placeholder {
+    font-size: 1.5em;
+    color: var(--placholder-text);
+}
+
+.searchBar button {
+    background: none;
+    outline: none;
+    border: none;
+}
+
+.searchBar button:hover {
+    cursor: pointer;
+}
+
+.searchBar img {
+    margin: 0 2em;
+    width: 2em;
+    
+    /* convert var(--placeholder-text) color value to change the color of the svg icon*/
+    filter: invert(39%) sepia(46%) saturate(537%) hue-rotate(157deg) brightness(91%) contrast(86%);
+}
+
+

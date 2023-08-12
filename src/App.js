@@ -7,7 +7,7 @@ import HomeDashboardPage from './pages/HomeDashboardPage';
 
 function App() {
   return (
-    <HomeDashboardPage />
+    <Login />
   );
 }
 
