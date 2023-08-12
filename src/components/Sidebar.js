@@ -8,7 +8,7 @@ import compare_icon from "../assets/icons/compare_icon.svg"
 
 export default function Sidebar() {
     return(
-        <div class={styles.sidebar}>
+        <div className={styles.sidebar}>
             <Logo text="Footop"/>
             <NavItem src={home_icon} text="Home"/>
             <NavItem src={following_icon} text="Following"/>

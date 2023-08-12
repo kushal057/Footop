@@ -6,7 +6,7 @@
   --bgPrimary: #82A1BB;
   --bgLight: #D7DFE7;
   --bgLightPlus: #E1E9F0;
-  font-size: 1.2;
+  font-size: calc(0.7vw + 0.3em);
 }
 
 * {

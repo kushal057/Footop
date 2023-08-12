@@ -1,0 +1,16 @@
+@import "../components/SidebarNavItem.module.css";
+
+.homeDashboard {
+    display: flex;
+}
+
+.homeDashboard .mainContent {
+    background: var(--bgDark);
+    flex: 1;
+}
+
+:global .sidebarNavItem {
+    background: blue;
+}
+
+

@@ -1,13 +1,15 @@
 import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
 import HomePage from "./pages/HomePage"
 import Login from "./pages/LoginPage"
 import SignUp from "./pages/SignUpPage"
-import HomeDashboardPage from './pages/HomeDashboardPage';
+import HomeDashboard from './pages/HomeDashboardPage';
 
 function App() {
   return (
-    <Login />
+    <div classname={styles.app}>
+      <HomeDashboard />
+    </div>
   );
 }
 

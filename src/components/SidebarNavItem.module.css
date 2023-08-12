@@ -1,14 +1,24 @@
 .sidebarNavItem {
-    font-size: 1.2em;
+    display: flex;
+    font-size: 1.1em;
+    align-self: flex-start;
+    padding: 0.8em 0;
+    width: 100%;
+    padding-left: 3.5em;
+    padding-right: 4.5em;
+}
+
+.sidebarNavItem .imageContainer {
+    height: 1em;
+    margin-right: 0.5em;
+}
+
+.sidebarNavItem p {
+    font-weight: 400;
 }
 
 .sidebarNavItem img {
-    max-height: 1em;
+    height: 100%;
     filter: invert(99%) sepia(73%) saturate(519%) hue-rotate(174deg) brightness(91%) contrast(99%);
 }
 
-p {
-    margin: 0 0.5em;
-    font-weight: 400;
-    display: inline-block;
-}
