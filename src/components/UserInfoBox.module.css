@@ -1,0 +1,21 @@
+.userInfoBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.userInfoBox .userIconContainer {
+    width: 3.8em;
+    margin-right: 0.5em;
+}
+
+.userIconContainer img {
+    width: 100%;
+}
+
+.userInfoBox .userMessage {
+    font-size: 1.3em;
+    font-weight: 400;
+    color: var(--bgLightPlus);
+}

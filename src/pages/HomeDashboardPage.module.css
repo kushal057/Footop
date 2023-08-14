@@ -1,5 +1,3 @@
-@import "../components/SidebarNavItem.module.css";
-
 .homeDashboard {
     display: flex;
 }
@@ -7,10 +5,19 @@
 .homeDashboard .mainContent {
     background: var(--bgDark);
     flex: 1;
+    padding: 2em 8em;
 }
 
-:global .sidebarNavItem {
-    background: blue;
+.mainContent .topBar {
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.mainContent .topBar > * + * {
+    margin-left: 8em;
 }
 
 
