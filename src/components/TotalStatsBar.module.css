@@ -1,0 +1,35 @@
+.progressBar {
+    width: 50%;
+    height: 2.5em;
+    background-color: var(--bgLightGray);
+    border-radius: 5px;
+  }
+  
+  .progressBarFill {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(190deg, var(--bgPrimary), var(--bgDark));
+    border-radius: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .progressBarIcon,
+  .progressBarNumber {
+    justify-content: center;
+  }
+
+  .progressBarIcon img {
+    width: 1em;
+    filter: invert(99%) sepia(73%) saturate(519%) hue-rotate(174deg) brightness(91%) contrast(99%);
+  }
+  
+  .progressBarNumber {
+    color: var(--bgLight);
+    font-weight: 600;
+  }
+  

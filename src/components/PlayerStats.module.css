@@ -1,0 +1,38 @@
+.PlayerStats {
+    width: 100%;
+    background: var(--bgDark);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 50%;
+    padding: 1em 5em;
+    color: white;
+}
+
+.PlayerStats > * {
+    margin: 1em 0;
+}
+
+.iconsLabels div {
+    margin-top: 2em;
+}
+
+.iconLabels img {
+    filter: invert(99%) sepia(73%) saturate(519%) hue-rotate(174deg) brightness(91%) contrast(99%);
+    width: 1em;
+    margin-right: 0.5em;
+    margin-top: 0.3em;
+}
+
+.iconLabels span {
+    margin-top: 0.3em;
+}
+
+.descriptions {
+    color: var(--bgLightGray);
+    font-weight: 300;
+    font-size: 0.8em;
+    font-style: italic;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,9 +1,9 @@
-import styles from "./PlayerInfoBar.module.css"
+import styles from "./PlayerInfo.module.css"
 import player_icon from "../assets/icons/player_icon.png"
 import club_logo_icon from "../assets/icons/club_logo_icon.png"
 import country_icon from "../assets/icons/country_icon.png"
 
-export default function PlayerInfoBar(
+export default function PlayerInfo(
     { name = "Erling Haaland", age = 22, position = "Striker", club = "Manchester City", shirtNumber = 9 , details = "basic"}) {
     const firstName = name.split(" ")[0];
     const lastName = name.split(" ")[name.split(" ").length - 1]; // Assign from the last word in the name prop

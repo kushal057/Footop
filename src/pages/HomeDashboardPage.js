@@ -2,7 +2,8 @@ import styles from "./HomeDashboardPage.module.css";
 import Sidebar from "../components/Sidebar";
 import SearchBar from "../components/SearchBar";
 import UserInfoBox from "../components/UserInfoBox";
-import PlayerInfoBar from "../components/PlayerInfoBar";
+import PlayerInfo from "../components/PlayerInfo";
+import PlayerStats from "../components/PlayerStats";
 
 export default function HomeDashboardPage() {
     return (
@@ -14,7 +15,8 @@ export default function HomeDashboardPage() {
                     <UserInfoBox />
                 </div>
                 <div className={styles.playerContainer}>
-                    <PlayerInfoBar />
+                    <PlayerInfo />
+                    <PlayerStats />
                 </div>
             </div>
         </div>
