@@ -2,13 +2,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const cors = require('cors');
+
+require('dotenv').config();
+
+const MONGODB_URL = process.env.MONGODB_URL;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express();
 const PORT = 3001;
 
+app.use(cors())
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost/Footop', {
+mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -17,7 +25,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
-  token: String, 
+  token: String,
 });
 
 const preferenceSchema = new mongoose.Schema({
@@ -29,19 +37,18 @@ const preferenceSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 const Preference = mongoose.model('Preference', preferenceSchema);
 
-// Function to generate a JWT token for a user
-function generateToken(userId) {
-  return jwt.sign({ userId }, 'your-secret-key', { expiresIn: '1h' });  // Adjust the expiration as needed
+async function generateToken(userId) {
+  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '1h' });
 }
 
 app.post('/users', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const user = new User({ username, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, email, password: hashedPassword });
 
-    // Generate a JWT token
-    const token = generateToken(user._id);
+    const token = await generateToken(user._id);
 
     user.token = token;
     await user.save();
@@ -56,14 +63,13 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email, password });
+    const user = await User.findOne({ email });
 
-    if (!user) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Generate a JWT token
-    const token = generateToken(user._id);
+    const token = await generateToken(user._id);
 
     user.token = token;
     await user.save();
@@ -73,6 +79,8 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Add middleware for token verification on protected routes
 
 app.get('/users', async (req, res) => {
   try {
