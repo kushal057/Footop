@@ -3,9 +3,6 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 puppeteer.use(StealthPlugin());
 
-
-const playerName = 'Virgil Van Dijk'; // Replace with the player name you want to scrape
-
 const scrapePlayerImages = async (playerName) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -145,12 +142,15 @@ const mainFunction = async (playerName) => {
     // Concatenate the responses into a new response array
     const finalResponse = playerInfoResponse.concat(playerImagesResponse);
 
-    console.log('Final Response:', finalResponse);
-    return finalResponse;
+    // Filter out items with missing or undefined values
+    const filteredResponse = finalResponse.filter(item => item.itemValue !== undefined && item.itemValue !== '');
+
+    console.log('Final Response:', filteredResponse);
+    return filteredResponse;
   } catch (error) {
     console.error('Error in mainFunction:', error);
   }
 };
 
-// Call the main function and wait for its completion
-mainFunction(playerName);
+
+module.exports = { mainFunction };
