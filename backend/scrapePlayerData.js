@@ -23,7 +23,7 @@ const scrapePlayerImages = async (playerName) => {
       console.error(`Player ${playerName} not found.`);
       return;
     }
-
+    
     // Click on the player's row
     await page.click('tbody > tr:first-child .row-title a');
 
@@ -132,7 +132,7 @@ const useHyperLinkText = async (playerName) => {
   }
 };
 
-const mainFunction = async (playerName) => {
+const mainFunctionForPlayer = async (playerName) => {
   try {
     const [playerImagesResponse, playerInfoResponse] = await Promise.all([
       scrapePlayerImages(playerName),
@@ -148,9 +148,9 @@ const mainFunction = async (playerName) => {
     console.log('Final Response:', filteredResponse);
     return filteredResponse;
   } catch (error) {
-    console.error('Error in mainFunction:', error);
+    console.error('Error in mainFunctionForPlayer:', error);
   }
 };
 
 
-module.exports = { mainFunction };
+module.exports = { mainFunctionForPlayer };

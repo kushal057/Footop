@@ -22,7 +22,7 @@ const HomeDashboardPage = () => {
         return;
       }
   
-      const response = await fetch('http://localhost:3001/scrapePlayerData?playerName=' + searchInput);
+      const response = await fetch('http://localhost:3001/search?searchTerm=' + searchInput);
   
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -73,7 +73,7 @@ const HomeDashboardPage = () => {
         </div>
         <div className={styles.playerContainer}>
           <PlayerInfo data={playerData}/>
-          <PlayerStats />
+          <PlayerStats data={playerData}/>
         </div>
       </div>
     </div>

@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
-const { mainFunction } = require('./scrapePlayerData');
+const { mainFunctionForPlayer } = require('./scrapePlayerData');
+const { mainFunctionForTeam } = require('./scrapeTeamData');
+const { findSearchType } = require('./findSearchType');
 
 require('dotenv').config();
 
@@ -33,6 +35,16 @@ const playerDataSchema = new mongoose.Schema({
   ],
 });
 
+const teamDataSchema = new mongoose.Schema({
+  teamName: { type: String, required: true, unique: true },
+  data: [
+    {
+      itemName: { type: String, required: true },
+      itemValue: { type: mongoose.Schema.Types.Mixed, required: true },
+    },
+  ],
+});
+
 const userSchema = new mongoose.Schema({
   username: String,
   email: String,
@@ -47,6 +59,7 @@ const preferenceSchema = new mongoose.Schema({
 });
 
 const PlayerData = mongoose.model('PlayerData', playerDataSchema);
+const TeamData = mongoose.model('TeamData', teamDataSchema);
 const User = mongoose.model('User', userSchema);
 const Preference = mongoose.model('Preference', preferenceSchema);
 
@@ -56,10 +69,20 @@ async function generateToken(userId) {
 
 const scrapeAndCachePlayerData = async (playerName) => {
   try {
-    const newData = await mainFunction(playerName);
+    const newData = await mainFunctionForPlayer(playerName);
     return newData;
   } catch (error) {
     console.error('Error in scrapeAndCachePlayerData:', error);
+    throw error;
+  }
+};
+
+const scrapeAndCacheTeamData = async (teamName) => {
+  try {
+    const newData = await mainFunctionForTeam(teamName);
+    return newData;
+  } catch (error) {
+    console.error('Error in scrapeAndCacheTeamData:', error);
     throw error;
   }
 };
@@ -137,45 +160,79 @@ app.get('/preferences/:userId', async (req, res) => {
   }
 });
 
-// New endpoint for scraping player data
-// New endpoint for scraping player data
-app.get('/scrapePlayerData', async (req, res) => {
-  const { playerName } = req.query;
+// Endpoint for scraping data
+app.get('/search', async (req, res) => {
+  const { searchTerm } = req.query;
 
-  if (!playerName) {
-    return res.status(400).json({ error: 'Player name is required' });
+  if (!searchTerm) {
+    return res.status(400).json({ error: 'Search term is required' });
   }
 
-  try {
-    // Attempt to find the existing player data
-    const existingData = await PlayerData.findOne({ playerName });
+  // Check for cached player data
+  const existingPlayerData = await PlayerData.findOne({ playerName: searchTerm });
+  if (existingPlayerData && existingPlayerData.data && existingPlayerData.data.length > 0) {
+    console.log('Using cached data for player:', searchTerm);
+    return res.json({ playerData: existingPlayerData.data });
+  }
 
-    // Check if the result contains data
-    if (existingData && existingData.data && existingData.data.length > 0) {
-      console.log('Using cached data for', playerName);
-      return res.json({ playerData: existingData.data });
+  // Check for cached team data
+  const existingTeamData = await TeamData.findOne({ teamName: searchTerm });
+  if (existingTeamData && existingTeamData.data && existingTeamData.data.length > 0) {
+    console.log('Using cached data for team:', searchTerm);
+    return res.json({ teamData: existingTeamData.data });
+  }
+
+  // Determine the search type
+  const searchType = await findSearchType(searchTerm);
+
+  if (searchType === 'player') {
+    try {
+      // If not cached, scrape and cache new player data
+      const playerName = searchTerm;
+      const newData = await scrapeAndCachePlayerData(playerName);
+      const updatedResult = await PlayerData.findOneAndUpdate(
+        { playerName },
+        { $set: { data: newData } },
+        { new: true, upsert: true }
+      );
+
+      if (!updatedResult) {
+        console.log('Failed to update data for player:', playerName);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      console.log('Scraped and cached data for player:', playerName);
+      res.json({ playerData: updatedResult.data });
+    } catch (error) {
+      console.error('Error scraping and caching player data:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
+  } else if (searchType === 'team') {
+    try {
+      // If not cached, scrape and cache new team data
+      const teamName = searchTerm;
+      const newData = await scrapeAndCacheTeamData(teamName);
+      const updatedResult = await TeamData.findOneAndUpdate(
+        { teamName },
+        { $set: { data: newData } },
+        { new: true, upsert: true }
+      );
 
-    // If not cached, scrape and cache new data
-    const newData = await scrapeAndCachePlayerData(playerName);
+      if (!updatedResult) {
+        console.log('Failed to update data for team:', teamName);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
 
-    // Attempt to update the existing player data with the new data
-    const updatedResult = await PlayerData.findOneAndUpdate(
-      { playerName },
-      { $set: { data: newData } },
-      { new: true, upsert: true }
-    );
-
-    if (!updatedResult) {
-      console.log('Failed to update data for', playerName);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      console.log('Scraped and cached data for team:', teamName);
+      res.json({ teamData: updatedResult.data });
+    } catch (error) {
+      console.error('Error scraping and caching team data:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    console.log('Scraped and cached data for', playerName);
-    res.json({ playerData: updatedResult.data });
-  } catch (error) {
-    console.error('Error scraping and caching player data:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+  } else {
+    // Invalid search type
+    console.log(`Invalid search type for ${searchTerm}`);
+    res.status(400).json({ error: 'Invalid search type' });
   }
 });
 
