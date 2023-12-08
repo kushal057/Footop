@@ -9,8 +9,23 @@
     padding: 2.5em 0;
 }
 
+.sidebar a {
+    color: inherit; /* Inherit the color from the parent element (.sidebar) */
+    text-decoration: none; /* Remove the underline from links */
+}
+
 .sidebar > * + * {
     margin-top: 1.2em;
+}
+
+.sidebar > * + *:hover {
+    background: var(--bgLight);
+    color: var(--bgDark);
+    width: 100%; 
+}
+
+.sidebar > * {
+    align-self: flex-start; /* Align each child element to the top of the container */
 }
 
 .sidebar > *:first-child {

@@ -1,0 +1,30 @@
+.ProfileSidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background: var(--bgDark);
+    color: var(--bgLight);
+    font-size: 1rem;
+    padding: 2em 0;
+}
+
+.ProfileSidebar > * + * {
+    margin-top: 1.2em;
+}
+
+.ProfileSidebar > *:first-child {
+    margin-bottom: 2em;
+    border-top: 2px solid var(--bgLight);
+    border-bottom: 2px solid var(--bgLight);
+    background: var(--bgLight);
+    color: var(--bgDark);
+}
+
+.ProfileSidebar > div > p{
+    font-weight: 600;
+}
+
+.ProfileSidebar div > img {
+    display: none;
+}

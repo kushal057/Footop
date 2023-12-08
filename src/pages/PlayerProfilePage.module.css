@@ -1,0 +1,27 @@
+.homeDashboard {
+    display: flex;
+}
+
+.homeDashboard .mainContent {
+    background: var(--bgLightPlus);
+    flex: 1;
+    padding: 2em 8em;
+}
+
+.mainContent .topBar {
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.mainContent .topBar > * + * {
+    margin-left: 8em;
+}
+
+.mainContent > *:first-child {
+    margin-bottom: 3em;
+}
+
+

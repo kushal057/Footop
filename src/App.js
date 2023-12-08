@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/LoginPage";
 import SignUp from "./pages/SignUpPage";
 import HomeDashboard from './pages/HomeDashboardPage';
+import PlayerProfilePage from './pages/PlayerProfilePage';
+import TeamProfilePage from './pages/TeamProfilePage';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/home-dashboard" element={<HomeDashboard />} />
+          <Route path="/player-profile" element={<PlayerProfilePage />} />
+          <Route path='/team-profile' element={<TeamProfilePage />} />
         </Routes>
       </div>
     </Router>

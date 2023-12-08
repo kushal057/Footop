@@ -1,0 +1,69 @@
+.TeamProfileInfoBar {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bgLight);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 50%;
+    padding: 2.7em 7em;
+    color: var(--bgDark);
+}
+
+.TeamProfileInfoBar .texts > * {
+    margin-bottom: 0.3em;
+}
+
+.name {
+    font-size: 4em;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-style: italic;
+} 
+
+.name > * {
+    line-height: 0.9;
+    display: block;
+}
+
+.name * + * {
+    margin-left: 0.5em;
+}
+
+.basicInfo .row {
+    margin-top: 2em;
+    margin-left: 2em;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.18em;
+    font-weight: 500;
+}
+
+.basicInfo .row + .row {
+    margin-top: 0.8em;
+}
+
+.images {
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.images .teamImage {
+    width: 12em;
+}
+
+.btnFollow {
+    z-index: 1;
+    position: absolute;
+    bottom: 0.8em;
+    left: 8.5em;
+    background: var(--bgDark);
+    color: white;
+    padding: 0.4em 3em; 
+    font-weight: 700;
+    font-size: 1.1em;
+    border-radius: 7px;
+}

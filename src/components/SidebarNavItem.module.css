@@ -7,6 +7,15 @@
     padding-left: 3.5em;
     padding-right: 4.5em;
 }
+.sidebarNavItem.active {
+    background: var(--bgLight);
+    color: var(--bgDark);
+    width: 100%;
+}
+
+.sidebarNavItem:hover {
+    cursor: pointer;
+}
 
 .sidebarNavItem .imageContainer {
     height: 1em;

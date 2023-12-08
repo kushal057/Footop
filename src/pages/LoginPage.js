@@ -11,30 +11,35 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // Perform login logic and get the token from the server
-    const response = await fetch('http://localhost:3001/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      // Set the token in local storage
-      localStorage.setItem('token', data.token);
-
-      // Redirect to HomeDashboardPage
-      navigate('/home-dashboard'); // Updated navigation
-    } else {
-      alert('Failed to login:' +  data.error);
-      // Handle login error, e.g., display an error message to the user
+  
+    // Perform login logic and get the token and user ID from the server
+    try {
+      const response = await fetch('http://localhost:3001/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        // Set the token and user ID in local storage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+  
+        // Redirect to HomeDashboardPage
+        navigate('/home-dashboard');
+      } else {
+        alert('Failed to login: ' + data.error);
+        // Handle login error, e.g., display an error message to the user
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
-
+  
   return (
     <div className={styles.login}>
       <div className={styles.loginBanner}></div>

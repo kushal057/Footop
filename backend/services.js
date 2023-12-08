@@ -50,6 +50,13 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   token: String,
+  searchHistory: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SearchHistory' }],
+});
+
+const searchHistorySchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  searchTerm: String,
+  timestamp: { type: Date, default: Date.now },
 });
 
 const preferenceSchema = new mongoose.Schema({
@@ -61,6 +68,7 @@ const preferenceSchema = new mongoose.Schema({
 const PlayerData = mongoose.model('PlayerData', playerDataSchema);
 const TeamData = mongoose.model('TeamData', teamDataSchema);
 const User = mongoose.model('User', userSchema);
+const SearchHistory = mongoose.model('SearchHistory', searchHistorySchema);
 const Preference = mongoose.model('Preference', preferenceSchema);
 
 async function generateToken(userId) {
@@ -116,11 +124,9 @@ app.post('/login', async (req, res) => {
     }
 
     const token = await generateToken(user._id);
-
-    user.token = token;
-    await user.save();
-
-    res.json({ token });
+    console.log(user)
+    // Return user ID along with the token
+    res.json({ userId: user._id, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -168,15 +174,30 @@ app.get('/search', async (req, res) => {
     return res.status(400).json({ error: 'Search term is required' });
   }
 
-  // Check for cached player data
-  const existingPlayerData = await PlayerData.findOne({ playerName: searchTerm });
+  // Normalize search term
+  const searchTermNormalized = searchTerm.toLowerCase();
+
+  // Check for cached player data (case-insensitive)
+  const existingPlayerData = await PlayerData.findOne({
+    $or: [
+      { playerName: { $regex: new RegExp(`^${searchTerm}$`, 'i') } },
+      { playerNameNormalized: searchTermNormalized },
+    ],
+  });
+
   if (existingPlayerData && existingPlayerData.data && existingPlayerData.data.length > 0) {
     console.log('Using cached data for player:', searchTerm);
     return res.json({ playerData: existingPlayerData.data });
   }
 
-  // Check for cached team data
-  const existingTeamData = await TeamData.findOne({ teamName: searchTerm });
+  // Check for cached team data (case-insensitive)
+  const existingTeamData = await TeamData.findOne({
+    $or: [
+      { teamName: { $regex: new RegExp(`^${searchTerm}$`, 'i') } },
+      { teamNameNormalized: searchTermNormalized },
+    ],
+  });
+
   if (existingTeamData && existingTeamData.data && existingTeamData.data.length > 0) {
     console.log('Using cached data for team:', searchTerm);
     return res.json({ teamData: existingTeamData.data });
@@ -190,19 +211,39 @@ app.get('/search', async (req, res) => {
       // If not cached, scrape and cache new player data
       const playerName = searchTerm;
       const newData = await scrapeAndCachePlayerData(playerName);
-      const updatedResult = await PlayerData.findOneAndUpdate(
-        { playerName },
-        { $set: { data: newData } },
-        { new: true, upsert: true }
-      );
 
-      if (!updatedResult) {
-        console.log('Failed to update data for player:', playerName);
-        return res.status(500).json({ error: 'Internal Server Error' });
+      // Check if the player name already exists in any form
+      const existingPlayer = await PlayerData.findOne({
+        $or: [
+          { playerName: { $regex: new RegExp(`^${playerName}$`, 'i') } },
+          { playerNameNormalized: searchTermNormalized },
+        ],
+      });
+
+      if (existingPlayer) {
+        console.log('Using cached data for player:', playerName);
+        return res.json({ playerData: existingPlayer.data });
       }
 
+      // Create a record with the original search term
+      const newPlayerData = new PlayerData({
+        playerName,
+        playerNameNormalized: playerName.toLowerCase(),
+        data: newData,
+      });
+
+      // Create a record with the normalized player name
+      const newNormalizedPlayerData = new PlayerData({
+        playerName: newData.find(item => item.itemName === 'playerName').itemValue,
+        playerNameNormalized: searchTermNormalized,
+        data: newData,
+      });
+
+      await newPlayerData.save();
+      await newNormalizedPlayerData.save();
+
       console.log('Scraped and cached data for player:', playerName);
-      res.json({ playerData: updatedResult.data });
+      res.json({ playerData: newPlayerData.data });
     } catch (error) {
       console.error('Error scraping and caching player data:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -212,19 +253,39 @@ app.get('/search', async (req, res) => {
       // If not cached, scrape and cache new team data
       const teamName = searchTerm;
       const newData = await scrapeAndCacheTeamData(teamName);
-      const updatedResult = await TeamData.findOneAndUpdate(
-        { teamName },
-        { $set: { data: newData } },
-        { new: true, upsert: true }
-      );
 
-      if (!updatedResult) {
-        console.log('Failed to update data for team:', teamName);
-        return res.status(500).json({ error: 'Internal Server Error' });
+      // Check if the team name already exists in any form
+      const existingTeam = await TeamData.findOne({
+        $or: [
+          { teamName: { $regex: new RegExp(`^${teamName}$`, 'i') } },
+          { teamNameNormalized: searchTermNormalized },
+        ],
+      });
+
+      if (existingTeam) {
+        console.log('Using cached data for team:', teamName);
+        return res.json({ teamData: existingTeam.data });
       }
 
+      // Create a record with the original search term
+      const newTeamData = new TeamData({
+        teamName,
+        teamNameNormalized: teamName.toLowerCase(),
+        data: newData,
+      });
+
+      // Create a record with the normalized team name
+      const newNormalizedTeamData = new TeamData({
+        teamName: newData.find(item => item.itemName === 'teamName').itemValue,
+        teamNameNormalized: searchTermNormalized,
+        data: newData,
+      });
+
+      await newTeamData.save();
+      await newNormalizedTeamData.save();
+
       console.log('Scraped and cached data for team:', teamName);
-      res.json({ teamData: updatedResult.data });
+      res.json({ teamData: newTeamData.data });
     } catch (error) {
       console.error('Error scraping and caching team data:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -235,6 +296,44 @@ app.get('/search', async (req, res) => {
     res.status(400).json({ error: 'Invalid search type' });
   }
 });
+
+// Endpoint for following teams or players
+app.post('/follow', async (req, res) => {
+  const { userId, followType, followId } = req.body;
+
+  try {
+    const preference = await Preference.findOne({ userId });
+
+    if (!preference) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (followType === 'team') {
+      // Check if the team is already followed
+      if (!preference.followedTeams.includes(followId)) {
+        preference.followedTeams.push(followId);
+        await preference.save();
+        res.status(200).json({ success: true });
+      } else {
+        res.status(400).json({ error: 'Team is already followed' });
+      }
+    } else if (followType === 'player') {
+      // Check if the player is already followed
+      if (!preference.followedPlayers.includes(followId)) {
+        preference.followedPlayers.push(followId);
+        await preference.save();
+        res.status(200).json({ success: true });
+      } else {
+        res.status  (400).json({ error: 'Player is already followed' });
+      }
+    } else {
+      res.status(400).json({ error: 'Invalid follow type' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

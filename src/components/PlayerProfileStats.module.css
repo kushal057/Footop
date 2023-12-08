@@ -1,15 +1,23 @@
-.PlayerStats {
+.PlayerProfileStats {
     width: 100%;
-    background: var(--bgDark);
+    background: var(--bgLight);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     height: 50%;
     padding: 1em 5em;
-    color: white;
+    color: var(--bgDark);
 }
 
-.PlayerStats > * {
+.PlayerProfileStats > * {
     margin: 1em 0;
+}
+
+.PlayerProfileStats > div {
+    background: var(--bgLightPlus);
+}
+
+.PlayerProfileStats > .descriptions {
+    background: none;
 }
 
 .iconsLabels div {
@@ -17,7 +25,7 @@
 }
 
 .iconLabels img {
-    filter: invert(99%) sepia(73%) saturate(519%) hue-rotate(174deg) brightness(91%) contrast(99%);
+    filter: invert(20%) sepia(8%) saturate(6767%) hue-rotate(172deg) brightness(96%) contrast(98%);
     width: 1em;
     margin-right: 0.5em;
     margin-top: 0.3em;
@@ -28,8 +36,8 @@
 }
 
 .descriptions {
-    color: var(--bgLightGray);
-    font-weight: 300;
+    color: var(--bgDark);
+    font-weight: 500;
     font-size: 0.8em;
     font-style: italic;
     width: 100%;
