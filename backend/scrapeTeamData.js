@@ -97,17 +97,18 @@ const useHyperLinkText = async (teamName) => {
     infoResponse.push({ itemName: "teamName", itemValue: teamName[0] }) // Use teamName[0] to get the single element
     infoResponse.push({ itemName: "nationName", itemValue: nationName[0] }) // Use nationName[0] to get the single element
 
+    await page.waitForSelector(".items .inline-table tr > td:first-child > img");
+
     const playerNumberArray = await page.$$eval(".items tr .rn_nummer", elements => elements.map(element => element.textContent.trim()));
-    const playerImageArray = await page.$$eval(".items .inline-table td img", elements => elements.map(element => element.getAttribute("src").trim()));
+    const playerImageArray = await page.$$eval(".items .inline-table tr > td:first-child > img", elements => elements.map(element => element.getAttribute("data-src").trim()));
     const playerNameArray = await page.$$eval(".items .inline-table .hauptlink a", elements => elements.map(element => element.textContent.trim()));
     const playerPositionArray = await page.$$eval(".items .inline-table tr:last-child td", elements => elements.map(element => element.textContent.trim()));
 
     for (let i = 0; i < playerNumberArray.length; i += 2) {
       infoResponse.push({ playerNumber: playerNumberArray[i], playerImage: playerImageArray[i], playerName: playerNameArray[i], playerPosition: playerPositionArray[i] })
     }
-    console.log(infoResponse)
+    console.log(infoResponse) 
     return infoResponse;
-
   } catch (error) {
     console.error('Error scraping player info:', error);
   } finally {

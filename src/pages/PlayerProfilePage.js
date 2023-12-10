@@ -9,13 +9,14 @@ import PlayerProfileStats from '../components/PlayerProfileStats';
 const PlayerProfilePage = () => {
   const [playerData, setPlayerData] = useState(null);
   const [userId, setUserId] = useState(null); // State to store the user ID
+  const [token, setToken] = useState(null); // State to store the JWT token
   const navigate = useNavigate();
 
   useEffect(() => {
     // Check if the user is authenticated
-    const token = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('token');
 
-    if (!token) {
+    if (!storedToken) {
       // Redirect to login if not authenticated
       navigate('/login');
     } else {
@@ -25,6 +26,9 @@ const PlayerProfilePage = () => {
       // Retrieve user ID from localStorage
       const storedUserId = localStorage.getItem('userId');
       setUserId(storedUserId);
+
+      // Set the token in the state
+      setToken(storedToken);
 
       // Retrieve player data from localStorage
       const storedPlayerData = localStorage.getItem('playerData');
@@ -39,6 +43,7 @@ const PlayerProfilePage = () => {
   // Log the current state to see if it updates
   console.log('Current playerData state:', playerData);
   console.log('Current userId state:', userId);
+  console.log('Current token state:', token);
 
   return (
     <div className={styles.homeDashboard}>
@@ -47,7 +52,7 @@ const PlayerProfilePage = () => {
         <div className={styles.topBar}>
         </div>
         <div className={styles.playerContainer}>
-          {/* Pass userId to child components */}
+          {/* Pass userId and token to child components */}
           <PlayerProfileInfo data={playerData} userId={userId} />
           <PlayerProfileStats data={playerData} />
         </div>

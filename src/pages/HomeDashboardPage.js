@@ -17,6 +17,28 @@ const HomeDashboardPage = () => {
     setSearchInput(event.target.value);
   };
 
+  // Fetch initial player data from /top-players endpoint
+  const fetchTopPlayers = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/top-players');
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      // Log the received data to the console
+      console.log('Top Players Data received from server:', responseData);
+
+      // Update state with received player data
+      setPlayerData(responseData.playerData.data);
+    } catch (error) {
+      console.error('Error fetching top player data:', error);
+      // Handle the error (e.g., show an error message to the user)
+    }
+  };
+
   const handleSearchSubmit = async () => {
     try {
       if (!searchInput) {
@@ -73,8 +95,16 @@ const HomeDashboardPage = () => {
       // Perform any actions specific to the authenticated user
       console.log('User is authenticated');
     }
-  }, [navigate]);
+    // Fetch initial player data
+    fetchTopPlayers();
 
+    // Set interval to periodically fetch player data every 5 seconds
+    const intervalId = setInterval(fetchTopPlayers, 5000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+
+  }, [navigate]);
   // Log the current state to see if it updates
   console.log('Current playerData state:', playerData);
 

@@ -24,4 +24,8 @@
     margin-bottom: 3em;
 }
 
+.mainContent > .teamContainer {
+    height: 100%;
+}
+
 

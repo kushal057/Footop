@@ -1,0 +1,40 @@
+.squadPlayer {
+    display: flex;
+    align-items: center;
+  }
+
+  .playerNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.8em;
+    text-align: center;
+    height: 2em;
+    background: #688BA7;
+    color: white;
+  }
+
+  .playerNumber p{
+    font-size: 1.05em;
+    font-weight: 700;
+  }
+  
+  .playerImage {
+    width: 2em;
+    height: 2em;
+    object-fit: cover;
+  }
+  
+  .playerInfo {
+    margin-left: 0.625em;
+  }
+  
+  .playerName {
+    font-size: 1em;
+    font-weight: 700;
+  }
+
+  .playerPosition {
+    font-size: 0.8em;
+    font-style: italic;
+  }

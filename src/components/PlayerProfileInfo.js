@@ -1,56 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./PlayerProfileInfo.module.css"
-import Button from "./Button";
+import styles from "./PlayerProfileInfo.module.css";
 
-export default function PlayerProfileInfo({ data, userId }) {
-    const [isFollowed, setIsFollowed] = useState(false);
-
-    useEffect(() => {
-        const fetchFollowStatus = async () => {
-            // Fetch the follow status from the server based on the user ID and normalized player name
-            try {
-                const response = await fetch(`http://localhost:3001/follow-status?userId=${userId}&followType=player&followId=${data[0]?.itemValue}`);
-                if (response.ok) {
-                    const { isFollowed } = await response.json();
-                    setIsFollowed(isFollowed);
-                } else {
-                    console.error('Error fetching follow status:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching follow status:', error);
-            }
-        };
-
-        fetchFollowStatus();
-    }, [data, userId]);
-
-    const handleFollowClick = async () => {
-        try {
-            // Send a request to the server to follow/unfollow the player
-            const response = await fetch('http://localhost:3001/follow', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId,
-                    followType: 'player',
-                    followId: data[0]?.itemValue, // Using the normalized player name as followId
-                }),
-            });
-
-            if (response.ok) {
-                // Update the local state to reflect the new follow status
-                setIsFollowed(!isFollowed);
-            } else {
-                // Handle error response from the server
-                console.error('Error following player:', response.status);
-            }
-        } catch (error) {
-            console.error('Error following player:', error);
-        }
-    };
-
+const PlayerProfileInfo = ({ data, userId }) => {
+    console.log(data)
     if (!data || data.length === 0) {
         // You can render a loading state or a message here
         return <p>No player data available</p>;
@@ -82,7 +34,6 @@ export default function PlayerProfileInfo({ data, userId }) {
         matchesPlayed,
         shirtNumber,
         currentClub
-
     } = data.reduce((acc, item) => {
         // Find the matching field using substring
         const matchedField = Object.keys(fieldMappings).find(fieldName =>
@@ -102,16 +53,41 @@ export default function PlayerProfileInfo({ data, userId }) {
     const firstName = nameParts.length > 0 ? nameParts[0] : "";
     const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
 
+    const handleFollow = async () => {
+        try {
+            // Assuming you have the userId and playerName available
+            console.log(userId) // Replace with the actual userId
+            console.log(playerName)
+
+            const response = await fetch('http://localhost:3001/follow/player', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, playerName }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Handle success (e.g., show a success message)
+                console.log(data.message);
+            } else {
+                // Handle failure (e.g., show an error message)
+                console.log(data.message);
+            }
+        } catch (error) {
+            console.error('Error following player:', error);
+        }
+    };
+
     return (
         <div className={styles.PlayerProfileInfoBar}>
             <div className={styles.images}>
                 <img className={styles.playerIcon} src={playerImage} alt="Player" />
                 <img className={styles.countryIcon} src={countryImage} alt="Country" />
-                <button
-                    className={styles.btnFollow}
-                    onClick={handleFollowClick}
-                >
-                    {isFollowed ? 'Unfollow' : 'Follow'}
+                <button className={styles.btnFollow} onClick={handleFollow}>
+                    Follow
                 </button>
             </div>
             <div className={styles.texts}>
@@ -134,4 +110,6 @@ export default function PlayerProfileInfo({ data, userId }) {
             </div>
         </div>
     );
-}
+};
+
+export default PlayerProfileInfo;

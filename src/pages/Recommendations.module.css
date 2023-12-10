@@ -1,0 +1,101 @@
+.container{
+    display: flex;
+}
+
+.container .mainContent {
+    background: var(--bgDarkPlus);
+    flex: 1;
+    padding: 1em 8em;
+}
+
+.mainContent .topBar {
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.mainContent .topBar > * + * {
+    margin-left: 8rem;
+}
+
+.mainContent > *:first-child {
+    margin-bottom: 1em;
+}
+.playersFollowing, .clubsFollowing{
+    background: var(--bgDark);
+    padding: 0.6em;
+    height: 37vh;
+    border-radius: 12px;
+    margin-bottom: 1.8em;
+}
+.title{
+    color: white;
+    font-style: italic;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.icon{
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.heading{
+    display: flex;
+    justify-content: space-between;
+}
+.players{
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding-top: 0.6em;
+}
+.griditems{
+    background-color: var(--bgDarkPlus);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+.gridimage{
+   background-color: white;
+   width: 3em;
+   border-radius: 8px;
+}
+.playerDescription{
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5em;
+}
+.playername{
+ font-size : 1.2rem;
+ font-weight: 700;
+}
+.clubname{
+ font-size: 0.9rem;
+ font-weight: 400;
+}
+
+.teamDescription{
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5em;
+}
+.teamName{
+ font-size : 1.2rem;
+ font-weight: 700;
+}
+.leagueName{
+ font-size: 0.9rem;
+ font-weight: 400;
+}
+
+
+.unfollowIcon{
+    font-size: 1.1rem;
+    margin-left: auto;
+    margin-right: 4px;
+}

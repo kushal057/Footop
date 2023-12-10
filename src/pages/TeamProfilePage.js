@@ -44,8 +44,6 @@ const TeamProfilePage = () => {
     <div className={styles.homeDashboard}>
       <ProfileSidebar />
       <div className={styles.mainContent}>
-        <div className={styles.topBar}>
-        </div>
         <div className={styles.teamContainer}>
           {/* Pass userId to child components */}
           <TeamProfileInfo data={teamData} userId={userId} />

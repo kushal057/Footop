@@ -15,7 +15,7 @@ export default function Sidebar() {
       <Logo text="Footop" />
       <SidebarNavItem src={home_icon} text="Home" to="/home-dashboard" />
       <SidebarNavItem src={following_icon} text="Following" to="/following" />
-      <SidebarNavItem src={for_you_icon} text="For you" to="/for-you" />
+      <SidebarNavItem src={for_you_icon} text="For you" to="/recommendations" />
       <SidebarNavItem src={compare_icon} text="Compare" to="/compare" />
     </div>
   );

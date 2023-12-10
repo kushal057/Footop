@@ -14,6 +14,7 @@ export default function PlayerInfo({ data }) {
       playerName: 'playerName',
       age: 'age:',
       position: 'position:',
+      joined: 'joined',
       playerImage: 'playerImage',
       countryImage: 'countryImage',
       goals: 'goals',
@@ -28,6 +29,7 @@ export default function PlayerInfo({ data }) {
       position,
       playerImage,
       countryImage,
+      joined,
       goals,
       assists,
       matchesPlayed,
@@ -59,7 +61,7 @@ export default function PlayerInfo({ data }) {
           </p>
           <div className={styles.basicInfo}>
             <p className={styles.row}>
-              <span className={styles.age} style={{marginRight: '4em'}}>Age: {age}</span>
+              <span className={styles.joined} style={{marginRight: '4em'}}>Joined: {joined}</span>
               <br />
               <span className={styles.position}>Position: {position.split(' ')[0]}</span>
             </p>
